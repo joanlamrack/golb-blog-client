@@ -19,3 +19,8 @@ npm run build
 ```
 npm run lint
 ```
+### Live version
+
+[Live Site](https://golb-blog-client.joanlamrack.me)
+
+[Live API](https://golb-blog.joanlamrack.me)
