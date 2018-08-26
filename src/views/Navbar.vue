@@ -15,7 +15,7 @@
 						<b>Create Post</b>
 					</a>
 				</router-link>
-				<router-link to="/create" tag="li" v-if="isloggedin">
+				<router-link to="/userposts" tag="li" v-if="isloggedin">
 					<a href="">
 						<i class="material-icons left">view_headline</i>
 						<b>Your blog</b>
@@ -25,13 +25,13 @@
 			<a class="brand-logo center">
 				<img src="../assets/logo-black.png" height=55px>
 			</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down" v-if="!isloggedin">
-				<router-link to="/login" tag="li">
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<router-link to="/login" tag="li" v-if="!isloggedin">
 					<a class="waves-effect waves-dark btn">
 						<b>Login</b>
 					</a>
 				</router-link>
-				<router-link to="/signup" tag="li">
+				<router-link to="/signup" tag="li" v-if="!isloggedin">
 					<a class="waves-effect waves-dark btn">
 						<b>
 							Sign Up
@@ -39,6 +39,14 @@
 						
 					</a>
 				</router-link>
+				<li @click="logout" v-if="isloggedin"> 
+					<a class="waves-effect waves-dark btn">
+						<b>
+							Log Out
+						</b>
+						
+					</a>
+				</li>
 			</ul>
 			
 			</div>
@@ -49,7 +57,16 @@
 
 <script>
 export default {
-	props:["isloggedin"]
+	props:["isloggedin", "email"],
+	methods:{
+		logout(){
+			console.log("logged out!")
+			
+			localStorage.setItem("token", "");
+			this.$emit("islogged", false);
+			this.$router.push("/")
+		}
+	}
 }
 </script>
 

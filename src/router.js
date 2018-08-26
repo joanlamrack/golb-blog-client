@@ -5,6 +5,8 @@ import Content from "./components/Content.vue";
 import Login from "./views/Login.vue";
 import CreatePost from "./views/CreatePost.vue";
 import SignUp from "./views/SignUp.vue";
+import UserPosts from "./views/UserPosts.vue";
+import EditPost from "./views/EditPost.vue";
 
 Vue.use(Router);
 
@@ -24,8 +26,7 @@ export default new Router({
 				{
 					path: "/article/:id",
 					name: "articledetail",
-					component: () =>  import("./components/ArticleView.vue")
-
+					component: () => import("./components/ArticleView.vue")
 				}
 			]
 		},
@@ -49,13 +50,21 @@ export default new Router({
 		},
 
 		{
-			path: "/about",
-			name: "about",
-			// route level code-splitting
-			// this generates a separate chunk (about.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () =>
-				import(/* webpackChunkName: "about" */ "./views/About.vue")
-		},
+			path: "/userposts",
+			name: "userposts",
+			component: UserPosts,
+			children: [
+				{
+					path: "/userposts/:id",
+					name: "userpostsdetail",
+					component: () => import("./components/ArticleView.vue")
+				},
+				{
+					path: "/userposts/edit/:id",
+					name: "editpost",
+					component: EditPost
+				}
+			]
+		}
 	]
 });

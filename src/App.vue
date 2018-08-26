@@ -1,9 +1,9 @@
 <template>
   <div id="app">
 
-	<Navbar :isloggedin="isLoggedIn"></Navbar>
+	<Navbar @token="setTokenToNull" :isloggedin="isLoggedIn" :email="email" @islogged="setToLoggedOn"></Navbar>
 	
-	<router-view></router-view>
+	<router-view @islogged="setToLoggedOn" @email="setEmail"></router-view>
     
 	<Footer></Footer>
 
@@ -25,16 +25,44 @@ export default {
   },
   data(){
 	  return{
-		  isLoggedIn:false
+		  email:"",
+		  isLoggedIn:false,
+		  token:""
+	  }
+  },
+  methods:{
+	  setToLoggedOn(param){
+		  console.log(param);
+		 this.isLoggedIn = param;
+	  },
+	  setEmail(email){
+		  this.email= email;
+	  },
+	  setTokenToNull(){
+		  this.token = null;
+	  }
+  },
+  mounted(){
+	  console.log("mounted");
+	  this.token = localStorage.getItem("token")
+  },
+  watch:{
+	  token:function(val){
+		  if(val!=="" && val){
+			  this.isLoggedIn=true;
+		  }
+		  else{
+			  this.isLoggedIn=false;
+		  }
 	  }
   }
 };
 </script>
 
 <style scoped>
-	#app{
-		height: 100%;
-	}
+#app {
+	height: 100%;
+}
 </style>
 
 

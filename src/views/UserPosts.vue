@@ -1,14 +1,17 @@
 <template>
 	<div class="row">
 
-		<div class="col s3 sidebar">
-			
-			<div v-if="articles.length > 0">
+		<div class="col s3">
+			<div v-if="articles.message =='No articles' ">
+				No Articles
+			</div>
+			<div v-else-if="articles.length > 0">
 				<div class="card blue-grey darken-1" style ="cursor:pointer" v-for="(article, key) of articles" :key="key">
-						<router-link tag="div" class="card-content white-text" :to='{name:"articledetail",params:{id:article._id}}'>
+						<router-link tag="div" class="card-content white-text" :to='{name:"userpostsdetail",params:{id:article._id}}'>
 							<span>{{article.title}}</span><br>
-							<span>Written by: {{article.writer.name}}</span>
+							<span>Written by: You</span>
 						</router-link>
+						<router-link tag="button" class="btn" :to='{name:"editpost",params:{id:article._id}}'>EDIT</router-link>
 				</div>
 			</div>
 			<div class="preloader-wrapper big active" v-else>
@@ -50,7 +53,6 @@
 	overflow: auto;
 	height: 100%
 }
-
 </style>
 
 <script>
@@ -63,12 +65,17 @@ export default {
 		}
 	},
 	created(){
-		axios.get("https://golb-blog.joanlamrack.me/articles")
+		axios.get("https://golb-blog.joanlamrack.me/articles/me", {
+			headers:{
+				token:localStorage.getItem("token")
+			}
+		})
 		.then(({data})=>{
-			this.articles = data;
+			console.log(data)
+			this.articles = data.data;
 		})
 		.catch(err=>{
-			
+			console.log(err)
 		})
 	}	
 }
